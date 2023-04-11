@@ -1,12 +1,7 @@
-INSERT INTO board_info(
-	board_title
-	,board_contents
+SELECT board_no
+	,board_title
 	,board_writedate
-	)
-	VALUES(
-	"제목25"
-	,"내용25"
-	,NOW()
-	);
-	
-	COMMIT;
+FROM board_info
+WHERE board_del_fg='0'
+AND board_no=2
+;

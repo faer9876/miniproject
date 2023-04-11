@@ -20,6 +20,8 @@
         }
     }
 
+
+
     function select_board_info_paging( &$param_arr ){
         $sql =
         " SELECT " 
@@ -55,6 +57,7 @@
 
     }
 
+
     function select_board_info_cnt(){
         $sql =
             " SELECT "
@@ -82,15 +85,101 @@
             return $result;
     }
 
+
+
+    /*-------------------------------
+    정보 보여주는 함수 작성
+    함수명 : select_board_info_no
+    기능   : 게시판 특정 게시글 정보 검색
+    리턴값 : Array $result
+    ----------------------------------*/
+
+    function select_board_info_no(&$param_no){
+        $sql =
+        " SELECT " 
+        ." board_no "
+        ." , board_title "
+        ." , board_contents "
+        ." FROM "
+        ."  board_info "
+        ." WHERE " 
+        ."  board_no = :board_no"
+        ;      
+        
+    $arr_prepare = array(
+                    ":board_no" => $param_no
+                    );    
+
+        $conn = null;
+        try{
+            db_conn( $conn );
+            $stmt = $conn->prepare( $sql );
+            $stmt->execute( $arr_prepare );
+            $result = $stmt->fetchAll();
+        }catch( Exception $e ){
+            return $e->getMessage();
+        }
+        finally{
+            $conn=null;
+        }
+        return $result[0]; //result는 원래 2차원 배열인데 pk로 가져와서 한개 밖에 필요 없으므로 0 넣어주면 됨. 
+
+    }
+    /*-------------------------------
+    업데이트 하는 함수 // 영향받은 행이 넘어옴
+    함수명 : update_board_info_no
+    기능   : 게시판 특정 게시글 정보 검색
+    리턴값 : $result_cnt/ERRMSG   INT/STRING
+    ----------------------------------*/
+    function update_board_info_no(&$param_arr){
+        $sql =
+        " UPDATE "
+        ."  board_info "
+        ." SET "
+        ."  board_title = :board_title "
+        ."  ,board_contents = :board_contents "
+        ." WHERE "
+        ."  board_no = :board_no "
+        ;
+    
+
+    $arr_prepare = array(
+                        ":board_title" => $param_arr["board_title"]
+                        ,":board_contents" => $param_arr["board_contents"]
+                        ,":board_no" => $param_arr["board_no"]
+                        );
+    $conn = null;
+    try{
+        db_conn( $conn ); // pdo object 셋
+        $conn->beginTransaction(); // transaction 시작
+        $stmt = $conn->prepare( $sql );
+        $stmt->execute( $arr_prepare );
+        $result_cnt = $stmt->rowCount();
+        $conn->commit();
+    }catch( Exception $e ){
+        $conn->rollback();
+        return $e->getMessage();
+    }
+    finally{
+        $conn=null;
+    }
+    return $result_cnt;
+
+    }
+
+    $arr=array(
+        "board_no"=>1
+        ,"board_title"=>"test1"
+        ,"board_contents"=>"testtest1"
+    );
+    // echo update_board_info_no($arr);
+
+
+
+
     //todo test start
-
-    // $arr=array(
-    //     "limit_num"=>5
-    //     ,"offset"=>0
-    // );
-    // $result =select_board_info_paging($arr);
-    // print_r($result);
-
+    // $param=0;
+    // print_r(select_board_info_no($param));
     //todo test end
 
 
