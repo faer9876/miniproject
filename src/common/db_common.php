@@ -100,6 +100,7 @@
         ." board_no "
         ." , board_title "
         ." , board_contents "
+        ." , board_writedate " //0412추가
         ." FROM "
         ."  board_info "
         ." WHERE " 
@@ -183,4 +184,42 @@
     //todo test end
 
 
+    /*-------------------------------
+    삭제 하는 함수 // 영향받은 행이 넘어옴
+    함수명 : delete_board_info_no
+    기능   : 게시판 특정 게시글 정보 삭제플러그 갱신
+    리턴값 : $result_cnt/ERRMSG   INT/STRING
+    ----------------------------------*/
+    function delete_board_info_no(&$param_no){
+        $sql=
+            " UPDATE "
+            ."  board_info "
+            ." SET "
+            ."  board_del_fg= '1' "
+            ."  ,board_del_date = NOW() "
+            ." WHERE "
+            ."  board_no = :board_no "
+            ; 
+        $arr_prepare=array(
+                    ":board_no" => $param_no
+        );
+        
+        $conn = null;
+    try{
+        db_conn( $conn ); // pdo object 셋
+        $conn->beginTransaction(); // transaction 시작
+        $stmt = $conn->prepare( $sql );
+        $stmt->execute( $arr_prepare );
+        $result_cnt = $stmt->rowCount();
+        $conn->commit();
+    }catch( Exception $e ){
+        $conn->rollback();
+        return $e->getMessage();
+    }
+    finally{
+        $conn=null;
+    }
+    return $result_cnt;
+
+    }
 ?>

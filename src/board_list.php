@@ -43,9 +43,12 @@
     <title>게시판</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="common.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tilt+Prism&display=swap" rel="stylesheet">
 </head>
         
-<div>
+<div id="back">
     <div id=nav>    
             <h3>
                 Beom Lab.
@@ -92,7 +95,7 @@
     <br>
     <br>
     <h1> 자유게시판</h1>
-    <table class='table table-success table-striped'>
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th>No.</th>
@@ -106,7 +109,7 @@
                     ?>
                     <tr>
                         <td><?php echo $recode ["board_no"] ?></td>
-                        <td><a href="http://localhost/miniproject/src/board_update.php?board_no=<?php echo $recode["board_no"] ?>"><?php echo $recode ["board_title"] ?></a></td>
+                        <td><a href="http://localhost/miniproject/src/board_detail.php?board_no=<?php echo $recode["board_no"] ?>"><?php echo $recode ["board_title"] ?></a></td>
                         <td><?php echo $recode ["board_writedate"] ?></td>
                     </tr>
             <?php

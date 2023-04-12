@@ -34,7 +34,10 @@
         $result_cnt=update_board_info_no($arr_info);
 
         //select
-        $result_info = select_board_info_no( $arr_post["board_no"] );
+        // $result_info = select_board_info_no( $arr_post["board_no"] ); //0412 del
+
+        header( "Location:board_detail.php?board_no=".$arr_post["board_no"] );
+        exit(); //  redirect 34행에서 탈출해서 이후 소스코드 실행필요x  
     }
     
     //게시판 정보 테이블 전체 카운트 획득
@@ -63,45 +66,71 @@
         <link rel="stylesheet" href="common2.css">
         <title>게시판 수정</title>
         <style>
-            body {
-                margin-left:800px;
+         * {
+            margin: 0 auto;
+        }
+
+        body {
+            width:1500px;
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f8f9fa;
+        
         }
 
         form {
-            width: 400px;
-            padding: 30px;
-            border: 1px solid #ccc;
-            background-color: #fff;
+            display: flex;
+            flex-wrap: wrap;
+            width: 70vw;
+            height: 90vh;
+            padding: 20px;
+            border: 1px solid #dddddd;
             border-radius: 5px;
+            text-align: center;
+            margin: 0 auto;
+            background-image: url("보노보노.gif");
+            background-size:cover;
+        }
+
+        #bno,
+        #title {
+            width: 100%;
+        }
+
+        input {
+            margin-top: 10px;
+            width: 100%;
         }
 
         h1 {
             text-align: center;
-        }
-
-        label,
-        input {
-            display: block;
-            margin-bottom: 10px;
+            font-size: 50px;
+            position: relative;
+            padding-left: 10vw;
+            padding-right: 10vw;
+            width: 100%;
         }
 
         button {
             margin-top: 10px;
+            margin-left: 5px;
         }
 
-        #con {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
+        a {
+            text-decoration: none;
+            color: white;
         }
 
-        #ma {
-            padding: 0;
+        label {
+            font-weight:bold;
+            width: 100%;
+        }
+        #bno,#title,#contents{
+            font-weight:bold;
+            border:none;
+            background-color:rgba(0, 0, 0, 0.1);
         }
         </style>
     </head>
@@ -109,29 +138,27 @@
         <form method="post" action="board_update.php">
         <h1>게시판 수정</h1>
         <br>
-        <br>
-        <br>
-            <label for="bno">게시글 번호 :</label>
+            <label for="bno" id="con2">게시글 번호 </label><br>
             <input type="text" name="board_no" id="bno" value="<?php echo $result_info["board_no"]?> "readonly>
             <br>
-            <label for="title">게시글 제목 : </label>
+            <label for="title" id="con3">게시글 제목 </label><br>
             <input type="text" name="board_title" id="title" value="<?php echo $result_info['board_title']?>">
             <br>
-            <label for="contents" >게시글 내용 :</label><br>
+            <label for="contents" id="con4">게시글 내용  </label><br>
             <input type="text" name="board_contents" id="contents" value="<?php echo $result_info['board_contents']?>">
             <br>
             <br>
             <div id="con">
-    <button type="submit" class="btn btn-dark">수정</button>
-    <button type="submit" id="ma">
-        <?php if($result_info["board_no"]>=1 && $result_info["board_no"]<=10){ ?>
-            <a href="http://localhost/miniproject/src/board_list.php?page_num=1"><?php } 
-            else if($result_info["board_no"]>=10 && $result_info["board_no"]<=20){ ?>
-            <a href="http://localhost/miniproject/src/board_list.php?page_num=2"><?php } 
-            else if($result_info["board_no"]>=21 && $result_info["board_no"]<=25){ ?>
-            <a href="http://localhost/miniproject/src/board_list.php?page_num=3"><?php } ?>리스트</a>
-    </button>
-</div>
+                <button type="submit" class="btn btn-dark">수정</button>
+        <button type="submit" id="ma" class="btn btn-dark">
+            <?php if($result_info["board_no"]>=1 && $result_info["board_no"]<=10){ ?>
+                <a href="http://localhost/miniproject/src/board_list.php?page_num=1"><?php } 
+                else if($result_info["board_no"]>=10 && $result_info["board_no"]<=20){ ?>
+                <a href="http://localhost/miniproject/src/board_list.php?page_num=2"><?php } 
+                else if($result_info["board_no"]>=21 && $result_info["board_no"]<=25){ ?>
+                <a href="http://localhost/miniproject/src/board_list.php?page_num=3"><?php } ?>리스트</a>
+        </button>
+            </div>
 
         </form>
     </body>
