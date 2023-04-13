@@ -1,0 +1,1 @@
+<h1><a href="board_list.php">BOARD MINI</a></h1>

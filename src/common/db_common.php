@@ -222,4 +222,47 @@
     return $result_cnt;
 
     }
+
+    /*-------------------------------
+    생성 하는 함수 // 영향받은 행이 넘어옴
+    함수명 : insert_board_info
+    기능   : 게시판 특정 게시글 정보 삭제플러그 갱신
+    리턴값 : $result_cnt/ERRMSG   INT/STRING
+    ----------------------------------*/
+    function insert_board_info(&$param_arr){
+        $sql=
+            " INSERT "
+            ." INTO "
+            ." board_info ("
+            . " board_title "
+            . " ,board_contents "
+            . " ,board_writedate ) "
+            ." values ("
+            . " :board_title "
+            . " ,:board_contents "
+            . " ,NOW() ) ";  
+        $arr_prepare=array(
+                            ":board_title" => $param_arr["board_title"]
+                            ,":board_contents" => $param_arr["board_contents"]
+                            );
+        $conn = null;
+        try{
+            db_conn( $conn ); // pdo object 셋
+            $conn->beginTransaction(); // transaction 시작
+            $stmt = $conn->prepare( $sql );
+            $stmt->execute( $arr_prepare );
+            $result_cnt = $stmt->rowCount();
+            $conn->commit();
+        }catch( Exception $e ){
+            $conn->rollback();
+            return $e->getMessage();
+        }
+        finally{
+            $conn=null;
+        }
+        
+        return $result_cnt;
+        }
+        // $arr=array("board_title"=>"test","board_contents"=>"test contents");
+        // echo insert_board_info($arr);
 ?>

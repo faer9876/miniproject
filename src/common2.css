@@ -1,9 +1,82 @@
 *{
-    float:left;
-    margin-left:10px;
+    margin:0 auto;
+    padding: 10px;
+}
+
+body{
+    width: 90%;
+    height: 90%;
+    margin : 0px auto;
+    }
+table{
+    margin-left: 3%;
+}
+tr{
+    width:10px;
+}
+html{
+    cursor : url(snow.png), pointer;
+}
+h1{
     text-align: center;
+    font-weight: bold;
+    font-family: 'Tilt Prism', 'cursive';
+}
+td,th{
+    border : 1px solid white;
 }
 a{
-    color: black;
-    list-style : none;
+    text-decoration:none;
+    color:black;
+}
+a:hover {
+    background-color: white;
+    transition: 0.7s;
+    outline-color: transparent;
+    outline-style:solid;
+    box-shadow: 0 0 0 4px #5a01a7;
+}
+td{
+    width:88%
+}
+p{
+    width:88%;
+    position: relative;
+    left: 100px;
+    top:-25px;
+    border-left: 0.3px solid gray;
+    border-bottom: 0.3px solid gray;
+    margin: 0;
+}
+#container{
+    text-align: center;
+}
+#info{
+    width: 88%;
+    height:30vh;
+}
+#contents{
+    width: 88%;
+    height:30vh;
+}
+#w{
+    margin-left: 5px;
+}
+#sub{
+    width: 88%;
+}
+#con{
+    text-align: center;
+}
+td>input{
+    position: relative;
+    left: 100px;
+    top: -25px;
+    border: none;
+}
+input>#title{
+    width:88%;
+}
+#contents{
+    border: 0.3px solid gray 0.8;
 }

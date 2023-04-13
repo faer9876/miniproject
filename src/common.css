@@ -5,15 +5,17 @@
 #back{
     /* background-color: rgb(205, 255, 243); */
     padding:10px;
-    background-image: url(뚱돼지.jpg);
-    border: 1px solid skyblue;
+    /* background-image: url(뚱돼지.jpg); */
+    /* border: 1px solid skyblue; */
 }
 body{
 width: 1500px;
 height: 800px;
 margin : 0px auto;
 }
-
+html{
+    cursor : url(snow.png), pointer;
+}
 h3{
 width:200px
 }
@@ -92,4 +94,7 @@ width:30px;
 }
 table{
     font-weight: bold;
+}
+#rg{
+    float: right;
 }
