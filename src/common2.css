@@ -39,15 +39,7 @@ a:hover {
 td{
     width:88%
 }
-p{
-    width:88%;
-    position: relative;
-    left: 100px;
-    top:-25px;
-    border-left: 0.3px solid gray;
-    border-bottom: 0.3px solid gray;
-    margin: 0;
-}
+
 #container{
     text-align: center;
 }
@@ -55,7 +47,7 @@ p{
     width: 88%;
     height:30vh;
 }
-#contents{
+#contents,#contents2{
     width: 88%;
     height:30vh;
 }
@@ -77,6 +69,27 @@ td>input{
 input>#title{
     width:88%;
 }
-#contents{
-    border: 0.3px solid gray 0.8;
+#title2{
+    top: 3px;
+    left: -10px;
+    margin: 0;
+}
+p{
+    width:88%;
+    position: relative;
+    left: 100px;
+    top:-25px;
+    margin: 0;
+}
+p,#contents,#contents2{
+    border-left: 0.3px solid gray;
+    border-bottom: 0.3px solid gray;
+}
+#contents2{
+    width: 88%;
+    height:30vh;
+    position: relative;
+    left: 10px;
+    top:3px;
+    margin: 0;
 }

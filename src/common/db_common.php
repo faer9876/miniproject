@@ -265,4 +265,105 @@
         }
         // $arr=array("board_title"=>"test","board_contents"=>"test contents");
         // echo insert_board_info($arr);
+
+        /*-------------------------------
+        검색 하는 함수 // 영향받은 행이 넘어옴
+        함수명 : search_board_info_no
+        기능   : 게시판 특정 게시글 정보 검색
+        리턴값 : $result/ERRMSG   INT/STRING
+        ----------------------------------*/
+        function search_board_info_no(&$param_arr){
+            $sql = 
+                    " SELECT "
+                    . " board_no "
+                    . " , board_title "
+                    . " , board_writedate "
+                    . " FROM "
+                    . " board_info "
+                    . " WHERE "
+                    . " board_del_fg = '0' "
+                    . " AND board_title LIKE CONCAT('%',:search_word,'%')"
+                    . " ORDER BY "
+                    . " board_no ASC ";
+            $conn = null;
+            try{
+                db_conn( $conn ); // pdo object 셋
+                $stmt = $conn->prepare( $sql );
+                $search_word = $param_arr["search_word"];
+                $stmt->bindParam(":search_word", $search_word);
+                $stmt->execute();
+
+                $result_set = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }catch( Exception $e ){
+                return $e->getMessage();
+            }
+            finally{
+                $conn=null;
+            }
+            return $result_set;
+        }
+        // $arr=array("search_word"=>"제목");
+        // $result = search_board_info_no($arr);
+        // var_dump($result);
+        // function search_board_info_cnt(&$param_no){
+        //     $sql = 
+        //             " SELECT "
+        //             . " * "
+        //             . " FROM "
+        //             . " board_info "
+        //             . " WHERE "
+        //             . " board_del_fg = '0' "
+        //             . " AND board_title LIKE CONCAT('%',:search_word,'%')"
+        //             . " ORDER BY "
+        //             . " board_no ASC ";
+        //     $conn = null;
+        //     try{
+        //         db_conn( $conn ); // pdo object 셋
+        //         $stmt = $conn->prepare( $sql );
+        //         $search_word = $param_no["search_word"];
+        //         $stmt->bindParam(":search_word", $search_word);
+        //         $stmt->execute();
+
+        //         $result_set = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        //     }catch( Exception $e ){
+        //         return $e->getMessage();
+        //     }
+        //     finally{
+        //         $conn=null;
+        //     }
+        //     return $result_set;
+////////////////////////////////////////////////////////////////////////////////////////
+        function search_board_info_cnt(&$param_no){
+            $sql = 
+                    " SELECT "
+                    ." COUNT(*) " 
+                    ." AS  cnt " 
+                    ." FROM " 
+                    ." board_info " 
+                    ." WHERE " 
+                    ." board_del_fg = '0' " 
+                    ." AND "
+                    ." board_title " 
+                    ." LIKE CONCAT('%', :search_word, '%')";
+            $conn = null;
+            try{
+                db_conn( $conn ); // pdo object 셋
+                $stmt = $conn->prepare( $sql );
+                $search_word = $param_no["search_word"];
+                $stmt->bindParam(":search_word", $search_word);
+                $stmt->execute();
+
+                $result_set = $stmt->fetch(PDO::FETCH_ASSOC);
+                $count = $result_set['cnt']; // 검색된 개수를 가져옴
+            }catch( Exception $e ){
+                return $e->getMessage();
+            }
+            finally{
+                $conn=null;
+            }
+            return $count;
+        }
+        $arr=array("search_word"=>"제목");
+        $result = search_board_info_cnt($arr);
+        echo $result;
 ?>

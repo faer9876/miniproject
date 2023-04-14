@@ -101,13 +101,13 @@
         <tbody>
             <form method="post" action="board_update.php">
             <tr>
-                <td><label for="title">수정할 제목</label>
-                <input type="text" name="board_title" id="title" value="<?php echo $result_info["board_title"]?>">
+                <td><label for="title2">수정할 제목</label>
+                <input type="text" name="board_title" id="title2" value="<?php echo $result_info["board_title"]?>">
                 </td>
             </tr>
             <tr>
-                <td><label for="contents">수정할 내용</label>
-                <input type="text" name="board_contents" id="contents" value="<?php echo $result_info["board_contents"]?>">
+                <td><label for="contents2">수정할 내용</label>
+                <input type="text" name="board_contents" id="contents2" value="<?php echo $result_info["board_contents"]?>">
                 </td>
             </tr>
         </form>
@@ -121,13 +121,8 @@
             </a>
             </button>
             <button class="btn btn-outline-dark">
-            <?php if($result_info["board_no"]>=1 && $result_info["board_no"]<=10){ ?>
-                <a href="http://localhost/miniproject/src/board_list.php?page_num=1"><?php } 
-                else if($result_info["board_no"]>=10 && $result_info["board_no"]<=20){ ?>
-                <a href="http://localhost/miniproject/src/board_list.php?page_num=2"><?php } 
-                else if($result_info["board_no"]>=21 && $result_info["board_no"]<=25){ ?>
-                <a href="http://localhost/miniproject/src/board_list.php?page_num=3"><?php } ?>리스트</a>
-        </button>
+                <a href="http://localhost/miniproject/src/board_list.php?page_num=1">리스트</a>
+            </button>
     </div>
     <?php 
 		for($i = 0; $i < 9 ; $i++)

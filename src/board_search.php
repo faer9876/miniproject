@@ -3,46 +3,32 @@
     define( "URL_DB", DOC_ROOT."miniproject/src/common/db_common.php" );
     define( "URL_HEADER", DOC_ROOT."miniproject/src/board_header.php" );
     include_once( URL_DB );
-    // $http_method = $_SERVER["REQUEST_METHOD"];
+
+    $search_word = isset($_POST['search_word']) ? $_POST['search_word'] : '';
 
     if(array_key_exists("page_num",$_GET)){
-        // $arr_get = $_GET;
         $page_num = $_GET["page_num"];
     }else{
         $page_num = 1;
     }
 
-
     $limit_num = 10;
 
+    $result_cnt = search_board_info_cnt($search_word);
 
-    
-    //검색한 정보 테이블 전체 카운트 획득
-    $result_cnt = select_board_info_cnt();
-
-    // max page number
     $max_page_num = ceil((int)$result_cnt[0]["cnt"]/$limit_num);
 
-    // offset
     $offset = ($page_num*$limit_num) - $limit_num;
-    
+
     $arr_prepare = array(
-                "limit_num"=> $limit_num
-                ,"offset"=> $offset
+        "limit_num"=> $limit_num,
+        "offset"=> $offset
     );
-    // $result_paging = select_board_info_paging( $arr_prepare );
-    // print_r($max_page_num);
-    $board_list = select_board_info_paging($arr_prepare);
 
-    if (isset($_POST['search_word'])&& !empty($_POST['search_word'])){
-        $search_word=$_POST['search_word'];
-        $search_arr=array("search_word" => $search_word);
-        $board_list=search_board_info_no($search_arr);
-    }else{
-        $arr_prepare=array("limit_num"=>$limit_num,"offset"=>$offset);
-        $board_list=select_board_info_paging($arr_prepare);
-    }
+    $result_paging = select_board_info_paging( $arr_prepare );
 
+    $search_arr=array("search_word" => $search_word);
+    $board_list=search_board_info_no($search_arr);
 ?>
 
 
@@ -53,7 +39,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시판</title>
+    <title>게시판 검색</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="common.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -136,13 +122,13 @@
             $pm=$page_num;
         ?>
         <?php
-                foreach( $board_list as $recode ){
-                    ?>
-                    <tr>
-                        <td><?php echo $recode ["board_no"] ?></td>
-                        <td> <a href="http://localhost/miniproject/src/board_detail.php?board_no=<?php echo $recode["board_no"] ?>&page_num=<?php echo $page_num ?>"><?php echo $recode ["board_title"] ?></a></td>
-                        <td><?php echo $recode ["board_writedate"] ?></td>
-                    </tr>
+            foreach( $board_list as $recode ){
+                ?>
+            <tr>
+                <td><?php echo $recode ["board_no"] ?></td>
+                <td> <a href="http://localhost/miniproject/src/board_detail.php?board_no=<?php echo $recode["board_no"] ?>&page_num=<?php echo $page_num ?>"><?php echo $recode ["board_title"] ?></a></td>
+                <td><?php echo $recode ["board_writedate"] ?></td>
+            </tr>
             <?php
                 }
             ?>
@@ -154,40 +140,39 @@
     <?php
         if($page_num>=1 && $page_num<$max_page_num){
             ?>
-            <a href="http://localhost/miniproject/src/board_list.php?page_num=3"><?php $max_page_num ?>▶</a> <?php
+            <a href="http://localhost/miniproject/src/board_search.php?page_num=3"><?php $max_page_num ?>▶</a> <?php
         }?>
         <?php
             for($i=1;$i<=$max_page_num;$i++){
         ?>        
             <div id=AA>
                 <?php if($page_num==$i){?>
-                    <a href ='board_list.php?page_num=<?php echo $i ?>'class='btn btn-danger' id='a'><?php echo $i ?></a> <?php }else{ ?>
-                    <a href ='board_list.php?page_num=<?php echo $i ?>'class='btn btn-dark' id='a'><?php echo $i ?></a>
+                    <a href ='board_search.php?page_num=<?php echo $i ?>'class='btn btn-danger' id='a'><?php echo $i ?></a> <?php }else{ ?>
+                    <a href ='board_search.php?page_num=<?php echo $i ?>'class='btn btn-dark' id='a'><?php echo $i ?></a>
                 <?php }?>
             </div>
     <?php 
         }
     ?>
     <?php if($page_num>1){?>
-            <a href="http://localhost/miniproject/src/board_list.php?page_num=1"><?php $max_num ?>◀</a> <?php
+            <a href="http://localhost/miniproject/src/board_search.php?page_num=1"><?php $max_num ?>◀</a> <?php
         }?>
     
     </div>
     
     <?php
-    ?>
-    <form method="post" action="board_search.php?$page_num=<?php echo $page_num?>">
-        <input type="hidden" name="search">
-        <label for="search">검색어</label>
-        <input type="text" id="search" name="search_word" placeholder="찾을 내용">
-        <button type="submit">검색</button>
-    </form>
 
-<?php 
-		for($i = 0; $i < 9 ; $i++)
-		{
+    if(empty($_REQUEST["search_word"])){ 
+        $search_word ="";
+    }else{
+        $search_word =$_REQUEST["search_word"];
+    }
+    ?>
+
+    <?php 
+		for($i = 0; $i < 9 ; $i++){
 	?>
-			<div class="snowflake">★</div>
+        <div class="snowflake">★</div>
 	<?php
 		}
 	?>

@@ -9,6 +9,8 @@
     // get info from db
     $result_info = select_board_info_no($arr_get["board_no"]);
 
+    $current_page_num=$_GET["page_num"];
+
 ?>
     <!DOCTYPE html>
     <html lang="ko">
@@ -21,7 +23,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Tilt+Prism&display=swap" rel="stylesheet">
-        <title>게시판 수정</title>
+        <title>게시판 보기</title>
         <link rel="stylesheet" href="common2.css">
     </head>
     <style>
@@ -68,10 +70,9 @@
             취소
         </a>
     </button>
-    <button type="button" class="btn btn-outline-dark">
-        <a href="board_list.php?board=<?php echo $result_info["board_no"]?>">
-            리스트
-        </a>
+    <button class="btn btn-outline-dark">
+                <a href="http://localhost/miniproject/src/board_list.php?page_num=<?php echo $current_page_num?>">리스트</a>
+            </button>
     <button type="button" class="btn btn-outline-dark" id="w">
         <a href="board_delete.php?board_no=<?php echo $result_info["board_no"]?>">
             삭제
